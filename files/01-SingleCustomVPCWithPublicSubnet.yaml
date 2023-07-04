@@ -1,5 +1,10 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Creates a custom VPC and an EC2 instance
+Description: Creates a Custom VPC with an EC2 instance in a Public Subnet
+Parameters:
+  LatestAmiId:
+    Description: AMI for EC2 (default is latest AmaLinux2)
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
 Resources:
   MyCustomVPC:
     Type: 'AWS::EC2::VPC'
@@ -7,7 +12,9 @@ Resources:
       CidrBlock: 10.0.0.0/16
       EnableDnsSupport: true
       EnableDnsHostnames: true
-
+      Tags:
+        - Key: Name
+          Value: MyCustomVPC
   InternetGateway:
     Type: 'AWS::EC2::InternetGateway'
 
@@ -80,7 +87,7 @@ Resources:
   MyInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      ImageId: ami-0b0dcb5067f052a63  # Replace with your desired AMI ID
+      ImageId: !Ref LatestAmiId
       InstanceType: t2.micro
       IamInstanceProfile: !Ref InstanceProfile
       SubnetId: !Ref PublicSubnet1
@@ -89,12 +96,19 @@ Resources:
           Value: MyInstance
       UserData:
         Fn::Base64: |
-          #!/bin/bash
-          yum update -y
-          yum install -y httpd
+          #!/bin/bash -xe
+          yum -y update
+          yum install -y httpd wget git
+          cd /tmp
+          git clone https://github.com/veeCan54/00-AutomationPractice.git 
+          cp ./00-AutomationPractice/corporate_website/* /var/www/html
+          usermod -a -G apache ec2-user   
+          chown -R ec2-user:apache /var/www
+          chmod 2775 /var/www
+          find /var/www -type d -exec chmod 2775 {} \;
+          find /var/www -type f -exec chmod 0664 {} \;
           systemctl enable httpd
           systemctl start httpd
-          echo "<html><h1>Birds4Ever Corporate website - The Ultimate portal</h1>" >> /var/www/html/index.html        
       SecurityGroupIds:
         - !Ref InstanceSecurityGroup
 
