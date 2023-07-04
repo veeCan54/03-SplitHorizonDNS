@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Creates a Custom VPC with an EC2 instance in a Public Subnet
+Description: Creates a Custom VPC with 2 Public subnets and an EC2 instance in one subnet.
 Parameters:
   LatestAmiId:
     Description: AMI for EC2 (default is latest AmaLinux2)
