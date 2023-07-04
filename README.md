@@ -1,7 +1,7 @@
 # Split Horizon or Split View DNS implementation
-Using the Split Horizon facility of DNS, it is possible to return different sets of DNS information, usually selected by the source address of the DNS request. This facility can provide a mechanism for security and privacy management by logical or physical separation of DNS information for network-internal access (within an administrative domain, e.g., company) and access from an unsecure, public network (e.g. the Internet)".  
+Using the Split Horizon facility of DNS, it is possible to return different sets of DNS information, usually selected by the source address of the DNS request. This facility can provide a mechanism for security and privacy management by logical or physical separation of DNS information for network-internal access (within an administrative domain, e.g., company) and access from an unsecure, public network (e.g. the Internet).  
  
-Split view DNS can be implemented with hardware based separation or software solutions. Using Route 53 Split Horizon or Split view architecture, we can have internal applications in a VPC resolve to internal only DNS records while external users would be redirected to the external facing web site. In this simple implementation we are doing it by using 2 hosted zones of the same name, one public and one private. The public hosted zone will host the record for the external site and private hosted zone will host the record for the internal website. External users will be taken to a Corporate web page served by Apache web server running on EC2. Internal users will be taken to a static Employee website hosted on S3.
+Split view DNS can be implemented with hardware based separation or software solutions. Using Route 53 Split Horizon or Split view architecture, we can have internal applications in a VPC resolve to internal only DNS records while external users would be redirected to the external facing web site. In this simple implementation we are doing it by using 2 hosted zones of the same name, one public and one private. The public hosted zone will host the record for the external site and private hosted zone will host the record for the internal website. External users will be taken to a corporate web page served by Apache web server running on EC2. Internal users will be taken to a static employee website hosted on S3.
  
 # Steps : 
 1. Create Custom VPC.  [Details](#Step1)
@@ -20,14 +20,14 @@ Split view DNS can be implemented with hardware based separation or software sol
 Create the VPC using the Cloudformation Template [here](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/files/01-SingleCustomVPCWithPublicSubnet.yml).  
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step1-CustomVPC.png) 
 # Step2: 
-Test to make sure the Corporate website is visible. 
+Test to make sure the Corporate website is accessible using the public IP address of the EC2 instance. 
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step2.png)
 # Step3:  
 Create a public hosted zone in Route 53. I already had a domain name purchased via Route 53 so I have a Route 53 public zone in my AWS account.  
-In the public zone create a record with simple routing pointing www to the public IP address of EC2 instance.
+In the public zone create a record with simple routing pointing to the public IP address of EC2 instance.
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step3.png)
 # Step4: 
-Test to make sure it resolves correctly via the browser
+Test to make sure it resolves correctly via the browser.
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step4-1.png)
 Another way to test it is using the terminal. Use the dig or curl command. 
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step4.png)
@@ -78,12 +78,12 @@ Go back to the external browser and test it out, nothing has changed here.
 ## Summary
 
 **What did I learn?**
-1. I implemented one use case for Split View DNS. Another use case could be when we want to redirect a canary release internally first before rolling it out ot the users.
-
-**No Mistakes this time - bonus points instead**
-I made a small next step in automating my infrastructure. Now I am able to reuse my simple corporate website from a git repository in any future projects.
-
-**TODO?**
+I implemented one use case for Split View DNS. This architecture could also be used when we want to redirect a canary release internally first before rolling it out to the users.  
+ 
+**No Mistakes this time - bonus points instead**  
+I made a small next step in automating my infrastructure. Now I am able to reuse my simple corporate website from a git repository in any future projects.  
+ 
+**TODO?**  
 More hands on labs! Networking, here I come.
 
 
