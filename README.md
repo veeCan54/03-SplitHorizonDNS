@@ -13,7 +13,7 @@ Split view DNS can be implemented with hardware based separation or software sol
 7. Create a private hosted zone with the same name as public hosted zone. [Details](#Step7). 
 8. Create a CNAME record in the private hosted zone pointing to the static website url. [Details](#Step8)
 9. Test the difference in behavior when accessed from the internet vs inside the VPC (intranet). [Details](#Step9)
-10. Clean up the resources by deleting the stack. Empty the contents of the S3 bucket and delete Delete bucket. If we want to keep the hosted zones in Route 53 it should cost us about $0.50 per month.
+10. Clean up the resources by deleting the stack. Empty the contents of the S3 bucket and delete the bucket. If we want to keep the hosted zones in Route 53 it should cost us about $0.50 per month.
 
 # Implementation steps:
 # Step1:  
@@ -54,7 +54,7 @@ Apply the bucket policy.
     ]
 }
 ```
-Upload the 2 files under the directory s3static_internal to the bucket.
+Download the [2 files here](https://github.com/veeCan54/03-SplitHorizonDNS/tree/main/s3static_internal) and upload these files to the S3 bucket.
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step5-BucketUpload.png)  
 Test the S3 static website via the browser to make sure we get the employee section.
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step8-StaticWebsite.png)
@@ -77,7 +77,7 @@ Go back to the external browser and test it out, nothing has changed here.
 
 ## Summary
 
-**What did I learn?**
+**What did I learn?**  
 I implemented one use case for Split View DNS. This architecture could also be used when we want to redirect a canary release internally first before rolling it out to the users.  
  
 **No Mistakes this time - bonus points instead**  
