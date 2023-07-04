@@ -17,7 +17,7 @@ Split view DNS can be implemented with hardware based separation or software sol
 
 # Implementation steps:
 # Step1:  
-Create the VPC using the Cloudformation Template [here](../03-SplitHorizonDNS/files/01-SingleCustomVPCWithPublicSubnet.yml). 
+Create the VPC using the Cloudformation Template [here](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/files/01-SingleCustomVPCWithPublicSubnet.yml).  
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step1-CustomVPC.png) 
 # Step2: 
 Test to make sure the Corporate website is visible. 
@@ -65,12 +65,12 @@ The one click deployment template sets both DNS flags in the VPC to true so we a
 The private hosted zone can be accessed only from the VPC it is associated with so make sure this is set correctly. 
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step8-privateHostedZone.png)
 # Step8:  
-In this zone create a CNAME record pointing www to the static website URL for the employee website. Setbthe TTL to be 60 sec
+In this zone create a CNAME record pointing www to the static website URL for the employee website. Set the TTL to be 60 sec.
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step7-CNAMERecord.png)
 # Step9:
 Connect to the EC2 instance and access the endpoint. This time it resolves to the internal website. 
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step8-EC2AfterPrivateZone.png)
-Both commands give the same results
+Both commands produce the same results:
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step8-Ec2AfterPrivatezone2.png)
 Go back to the external browser and test it out, nothing has changed here. 
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step9-Corporate.png)
