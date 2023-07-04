@@ -13,7 +13,7 @@ Split view DNS can be implemented with hardware based separation or software sol
 7. Create a private hosted zone with the same name as public hosted zone. [Details](#Step7). 
 8. Create a CNAME record in the private hosted zone pointing to the static website url. [Details](#Step8)
 9. Test the difference in behavior when accessed from the internet vs inside the VPC (intranet). [Details](#Step9)
-
+10. Clean up the resources by deleting the stack. Empty the contents of the S3 bucket and delete Delete bucket. If we want to keep the hosted zones in Route 53 it should cost us about $0.50 per month.
 
 # Implementation steps:
 # Step1:  
