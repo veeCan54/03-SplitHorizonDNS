@@ -78,14 +78,14 @@ Go back to the external browser and test it out, nothing has changed here.
 ## Summary
 
 **What did I learn?**  
-1. I implemented one use case for Split View DNS.
+1. Implemented a use case for Split View DNS.
 2. This architecture could also be used when we want to redirect a canary release internally first before rolling it out to the users.  
  
 **No Mistakes this time - bonus points instead**  
-1. I made a small next step in automating my infrastructure. Now I am able to reuse my simple corporate website from a git repository in any future projects.  
-2. ***Edit: After I finished this is when I realized that in order to have HTTPS enabled on a static website hosted on S3, we need to be using Cloudfront. Ok. So in the real world for this use case, it needs to be implemented integrating with CloudFront***. 
+1. I made a small next step in automating my infrastructure. Now it is possible to reuse the corporate website from my git repository in any future projects.  
+2. ***Edit: After I finished this is when I realized that in order to have HTTPS enabled on a static website hosted on S3, we need to be using CloudFront**. 
  
 **TODO?**  
-1. More hands on labs! Networking, here I come.
-2. Do a Hands on exercise for enabling an HTTPS website on S3.
+1. More hands on projects. Networking, here I come.
+2. Do a hands on exercise for enabling an HTTPS website on S3 integrating with CloudFront and ACM.
 
