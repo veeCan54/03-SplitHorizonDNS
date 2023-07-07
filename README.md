@@ -5,15 +5,16 @@ Split view DNS can be implemented with hardware based separation or software sol
  
 # Steps : 
 1. Create Custom VPC.  [Details](#Step1)
-2. Test to make sure that we can view the Corporate web page via a browser using the public IP address of the EC2 instance. [Details](#Step2)
+2. Test to make sure we can view the Corporate web page via a browser using the public IP address of the EC2 instance. [Details](#Step2)
 3. Set up public hosted zone in Route 53. [Details](#Step3)
 4. Test the url using a browser and using dig command from the public internet. [Details](#Step4)
 5. Test results from inside the VPC. [Details](#Step5)
 6. We need an S3 static website to serve as the internal employee website. Enable static website hostng & make sure it is working. [Details](#Step6)
 7. Create a private hosted zone with the same name as public hosted zone. [Details](#Step7). 
 8. Create a CNAME record in the private hosted zone pointing to the static website url. [Details](#Step8)
-9. Test the difference in behavior when accessed from the internet vs inside the VPC (intranet). [Details](#Step9)
+9. Test the difference in behavior when accessed from the internet vs from inside the VPC (intranet). [Details](#Step9)
 10. Clean up the resources by deleting the stack. Empty the contents of the S3 bucket and delete the bucket. If we want to keep the hosted zones in Route 53 it should cost us about $0.50 per month.
+11. Summary & What I learned. [Details](#summary)
 
 # Implementation steps:
 # Step1:  
@@ -74,8 +75,10 @@ Both commands produce the same results:
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step8-Ec2AfterPrivatezone2.png)
 Go back to the external browser and test it out, nothing has changed here. 
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step9-Corporate.png)
+# Step10: 
+Delete the stack. Empty the S3 bucket and delete it.
 
-## Summary
+## Summary<a name="summary"></a>
 
 **What did I learn?**  
 1. Implemented a use case for Split View DNS.
@@ -87,5 +90,5 @@ Go back to the external browser and test it out, nothing has changed here.
  
 **TODO?**  
 1. More hands on projects. Networking, here I come.
-2. Do a hands on exercise for enabling an HTTPS website on S3 integrating with CloudFront and ACM.
+2. Host an HTTPS website on S3 integrating with CloudFront and ACM.
 
