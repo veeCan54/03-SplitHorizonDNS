@@ -21,8 +21,9 @@ Split view DNS can be implemented with hardware based separation or software sol
 Create the VPC using the Cloudformation Template [here](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/files/01-SingleCustomVPCWithPublicSubnet.yml).  
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step1-CustomVPC.png) 
 # Step2: 
-Test to make sure the Corporate website is accessible using the public IP address of the EC2 instance. 
-![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step2.png)
+Test to make sure the Corporate website is accessible using the public IP address of the EC2 instance.  
+![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step2.png)  
+Bird graphic courtesy of freepik.
 # Step3:  
 Create a public hosted zone in Route 53. I already had a domain name purchased via Route 53 so I have a Route 53 public zone in my AWS account.  
 In the public zone create a record with simple routing pointing to the public IP address of EC2 instance.
@@ -81,14 +82,15 @@ Delete the stack. Empty the S3 bucket and delete it.
 ## Summary<a name="summary"></a>
 
 **What did I learn?**  
-1. Implemented a use case for Split View DNS.
+1. Implemented a use case for Split View DNS. Observed how different records are returned depending on the source of the request.
 2. This architecture could also be used when we want to redirect a canary release internally first before rolling it out to the users.  
  
-**No Mistakes this time - bonus points instead**  
-1. I made a small next step in automating my infrastructure. Now it is possible to reuse the corporate website from my git repository in any future projects.  
-2. ***Edit: After I finished this is when I realized that in order to have HTTPS enabled on a static website hosted on S3, we need to be using CloudFront**. 
+**No Mistakes - bonus points**  
+1. I made a small next step in automating infrastructure. Now it is possible to reuse the corporate website from one of my current repositories in any future projects. 
+2. ***In order to have HTTPS enabled on a static website hosted on S3, we need to be using CloudFront**. 
  
 **TODO?**  
-1. More hands on projects. Networking, here I come.
-2. Host an HTTPS website on S3 integrating with CloudFront and ACM.
+1. More hands on projects.
+2. Host an HTTPS website on S3 integrating with CloudFront and ACM.<br>
+Bird graphic courtesy of freepik <img src="https://github.com/veeCan54/00-EnvelopeEncryptionHandsOn/blob/main/images/freepic.png" width="70" height="10" />
 
