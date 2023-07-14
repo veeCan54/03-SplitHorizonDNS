@@ -17,26 +17,26 @@ Split view DNS can be implemented with hardware based separation or software sol
 11. Summary & What I learned. [Details](#summary)
 
 # Implementation steps:
-# Step1:  
+# Step 1:<a name="Step1"></a> 
 Create the VPC using the Cloudformation Template [here](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/files/01-SingleCustomVPCWithPublicSubnet.yml).  
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step1-CustomVPC.png) 
-# Step2: 
+# Step 2:<a name="Step2"></a>  
 Test to make sure the Corporate website is accessible using the public IP address of the EC2 instance.  
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step2.png)  
 Bird graphic courtesy of freepik.
-# Step3:  
+# Step 3:<a name="Step3"></a>   
 Create a public hosted zone in Route 53. I already had a domain name purchased via Route 53 so I have a Route 53 public zone in my AWS account.  
 In the public zone create a record with simple routing pointing to the public IP address of EC2 instance.
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step3.png)
-# Step4: 
+# Step 4:<a name="Step4"></a>   
 Test to make sure it resolves correctly via the browser.
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step4-1.png)
 Another way to test it is using the terminal. Use the dig or curl command. 
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step4.png)
-# Step5: 
+# Step 5:<a name="Step5"></a>   
 Connect to the EC2 instance using Instance Connect and do the same. We get the same results.
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step5.png)
-# Step6: 
+# Step 6:<a name="Step6"></a>  
 Create an S3 bucket with the same name as the public hosted zone. Make sure it is set to public access. 
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step5-S3BucketSettings.png)
 Enable S3 static site hosting under properties.
@@ -60,36 +60,36 @@ Download the [2 files here](https://github.com/veeCan54/03-SplitHorizonDNS/tree/
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step5-BucketUpload.png)  
 Test the S3 static website via the browser to make sure we get the employee section.
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step8-StaticWebsite.png)
-# Step7:   
+# Step 7:<a name="Step7"></a>    
 Create a private hosted zone with the same name as public hosted zone and associate it with MyCustomVPC. 
 The one click deployment template sets both DNS flags in the VPC to true so we already have that in place in our custom VPC.  
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step1-EnableDNSSettings.png) 
 The private hosted zone can be accessed only from the VPC it is associated with so make sure this is set correctly. 
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step8-privateHostedZone.png)
-# Step8:  
+# Step 8:<a name="Step8"></a>   
 In this zone create a CNAME record pointing www to the static website URL for the employee website. Set the TTL to be 60 sec.
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step7-CNAMERecord.png)
-# Step9:
+# Step 9:<a name="Step9"></a> 
 Connect to the EC2 instance and access the endpoint. This time it resolves to the internal website. 
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step8-EC2AfterPrivateZone.png)
 Both commands produce the same results:
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step8-Ec2AfterPrivatezone2.png)
 Go back to the external browser and test it out, nothing has changed here. 
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step9-Corporate.png)
-# Step10: 
+# Step 10:<a name="Step10"></a> 
 Delete the stack. Empty the S3 bucket and delete it.
 
-## Summary<a name="summary"></a>
+# Summary<a name="summary"></a>
 
-**What did I learn?**  
+**What I learned**  
 1. Implemented a use case for Split View DNS. Observed how different records are returned depending on the source of the request.
 2. This architecture could also be used when we want to redirect a canary release internally first before rolling it out to the users.  
  
-**No Mistakes - bonus points**  
-1. I made a small next step in automating infrastructure. Now it is possible to reuse the corporate website from one of my current repositories in any future projects. 
+**Mistakes/Enhancements**  
+1. I made a small next step in automating infrastructure compared to a previous exercise. Now it is possible to reuse the corporate website from one of my current repositories in any future projects. 
 2. ***In order to have HTTPS enabled on a static website hosted on S3, we need to be using CloudFront**. 
  
-**TODO?**  
+**TODO**  
 1. More hands on projects.
 2. Host an HTTPS website on S3 integrating with CloudFront and ACM.<br>
 Bird graphic courtesy of freepik <img src="https://github.com/veeCan54/00-EnvelopeEncryptionHandsOn/blob/main/images/freepic.png" width="70" height="10" />
