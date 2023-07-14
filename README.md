@@ -18,7 +18,7 @@ Split view DNS can be implemented with hardware based separation or software sol
 
 # Implementation steps:
 # Step 1:<a name="Step1"></a> 
-Create the VPC using the Cloudformation Template [here](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/files/01-SingleCustomVPCWithPublicSubnet.yml).  
+Create the VPC using the Cloudformation Template [here](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/files/01-SingleCustomVPCWithPublicSubnet.yaml).  
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step1-CustomVPC.png) 
 # Step 2:<a name="Step2"></a>  
 Test to make sure the Corporate website is accessible using the public IP address of the EC2 instance.  
