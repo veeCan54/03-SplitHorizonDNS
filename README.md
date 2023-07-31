@@ -2,19 +2,29 @@
 Using the Split Horizon facility of DNS, it is possible to return different sets of DNS information, usually selected by the source address of the DNS request. This facility can provide a mechanism for security and privacy management by logical or physical separation of DNS information for network-internal access (within an administrative domain, e.g., company) and access from an unsecure, public network (e.g. the Internet).  
  
 Split view DNS can be implemented with hardware based separation or software solutions. Using Route 53 Split Horizon or Split view architecture, we can have internal applications in a VPC resolve to internal only DNS records while external users would be redirected to the external facing web site. In this simple implementation we are doing it by using 2 hosted zones of the same name, one public and one private. The public hosted zone will host the record for the external site and private hosted zone will host the record for the internal website. External users will be taken to a corporate web page served by Apache web server running on EC2. Internal users will be taken to a static employee website hosted on S3. 
+
+> **Note:**
+> As a prerequisite for this hands-on we need a public hosted zone on Route 53.
+> It can be any name of your choice. When you register a doman using Route 53, a public hosted zone is automatically created as part of the process. [This link to AWS documentation](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html) has detailed steps that can be followed for registering a doman with Route 53.
+> For every hosted zone we maintain in our AWS account, AWS charges $.50 per hosted zone per month. 
  
 # Steps : 
 1. Create Custom VPC.  [Details](#Step1)
-2. Test to make sure we can view the Corporate web page via a browser using the public IP address of the EC2 instance. [Details](#Step2)
-3. Set up public hosted zone in Route 53. [Details](#Step3)
+2. Test the web page via a browser using the public IP address of the EC2 instance. [Details](#Step2)
+3. Create a record in our public zone pointing to the IP address of EC2 instance. [Details](#Step3)
 4. Test the url using a browser and using dig command from the public internet. [Details](#Step4)
 5. Test results from inside the VPC. [Details](#Step5)
 6. We need an S3 static website to serve as the internal employee website. Enable static website hostng & make sure it is working. [Details](#Step6)
 7. Create a private hosted zone with the same name as public hosted zone. [Details](#Step7). 
 8. Create a CNAME record in the private hosted zone pointing to the static website url. [Details](#Step8)
 9. Test the difference in behavior when accessed from the internet vs from inside the VPC (intranet). [Details](#Step9)
-10. Clean up the resources by deleting the stack. Empty the contents of the S3 bucket and delete the bucket. If we want to keep the hosted zones in Route 53 it should cost us about $0.50 per month.
-11. Summary & What I learned. [Details](#summary)
+10. Clean up the resources by deleting the stack. Empty the contents of the S3 bucket and delete the bucket. If we want to keep the private hosted zones in Route 53 it should cost us about $0.50 per month.
+11. Summary [Details](#summary)
+
+> **Note:**
+> As a prerequisite for this hands-on we need a public hosted zone on Route 53.
+> It can be any name of your choice. When you register a doman using Route 53, a public hosted zone is automatically created as part of the process. [This link to AWS documentation](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html) has detailed steps that can be followed for registering a doman with Route 53.
+> For every hosted zone we maintain in our AWS account, AWS charges $.50 per hosted zone per month. 
 
 # Implementation steps:
 # Step 1:<a name="Step1"></a> 
@@ -24,9 +34,8 @@ Create the VPC using the Cloudformation Template [here](https://github.com/veeCa
 Test to make sure the Corporate website is accessible using the public IP address of the EC2 instance.  
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step2.png)  
 Bird graphic courtesy of freepik.
-# Step 3:<a name="Step3"></a>   
-Create a public hosted zone in Route 53. I already had a domain name purchased via Route 53 so I have a Route 53 public zone in my AWS account.  
-In the public zone create a record with simple routing pointing to the public IP address of EC2 instance.
+# Step 3:<a name="Step3"></a>     
+In our Route 53 public zone, create a record with simple routing pointing to the public IP address of EC2 instance.
 ![Alt text](https://github.com/veeCan54/03-SplitHorizonDNS/blob/main/images/Step3.png)
 # Step 4:<a name="Step4"></a>   
 Test to make sure it resolves correctly via the browser.
@@ -79,18 +88,12 @@ Go back to the external browser and test it out, nothing has changed here.
 # Step 10:<a name="Step10"></a> 
 Delete the stack. Empty the S3 bucket and delete it.
 
-# Summary<a name="summary"></a>
-
-**What I learned**  
-1. Implemented a use case for Split View DNS. Observed how different records are returned depending on the source of the request.
-2. This architecture could also be used when we want to redirect a canary release internally first before rolling it out to the users.  
+# Summary<a name="summary"></a> 
+1. In this hands-on we implemented a use case for Split View DNS. Observed how different records are returned depending on the source of the request.
+2. This architecture can be used when we want to redirect a canary release internally first before rolling it out to the users.  
+ **In order to have HTTPS enabled on a static website hosted on S3, we need to be using CloudFront.**
  
-**Mistakes/Enhancements**  
-1. I made a small next step in automating infrastructure compared to a previous exercise. Now it is possible to reuse the corporate website from one of my current repositories in any future projects. 
-2. ***In order to have HTTPS enabled on a static website hosted on S3, we need to be using CloudFront**. 
- 
-**TODO**  
-1. More hands on projects.
-2. Host an HTTPS website on S3 integrating with CloudFront and ACM.<br>
+**TODO:**  
+Host an HTTPS website on S3 integrating with CloudFront and ACM.<br>
 Bird graphic courtesy of freepik <img src="https://github.com/veeCan54/00-EnvelopeEncryptionHandsOn/blob/main/images/freepic.png" width="70" height="10" />
 
